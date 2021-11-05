@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\BaseApiController;
+use App\Repositories\ShortenerRepository;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -18,8 +19,18 @@ class ShortenerController extends BaseApiController
 
     }
 
-    public function shortenUrl(String $url): String
+    public function shortenUrl(Request $request): String
     {
+        try
+        {
+            $url = $request->get("url");
 
+
+        }
+        catch (Exception $e){
+
+        }
+
+        return "";
     }
 }
