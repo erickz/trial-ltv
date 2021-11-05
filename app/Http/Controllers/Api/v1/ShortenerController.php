@@ -46,12 +46,17 @@ class ShortenerController extends BaseApiController
                 throw new Exception('Please provide a URL');
             }
 
+            if (strpos($url, 'www') === false) {
+                throw new Exception('Please provide a valid URL');
+            }
+
+            //If the url doesn't contain http, add to it
             if (strpos($url, 'http') !== 0) {
                 $url = 'http://' .  $url;
             }
 
             if (filter_var($url, FILTER_VALIDATE_URL) === false){
-                throw new Exception("URL IS NOT VALID");
+                throw new Exception("The provided URL is not valid");
             }
 
             $shortenedUrl = $this->repo->store(['original_url' => $url]);
