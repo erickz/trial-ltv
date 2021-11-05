@@ -23,9 +23,9 @@ class UrlRepository implements UrlRepositoryInterface
         return $this->model->get();
     }
 
-    public function getTop100()
+    public function getTop100(): Collection
     {
-        return $this->model->take(100)->order_by('access_count', 'DESC')->get();
+        return $this->model->take(100)->orderBy('access_count', 'DESC')->get();
     }
 
     public function paginate(Array $filters = []): LengthAwarePaginator
@@ -38,12 +38,22 @@ class UrlRepository implements UrlRepositoryInterface
         return $this->model->find($id);
     }
 
-    public function generateRandomString($limit = 6)
+    public function findByHash($hash): Model
+    {
+        return $this->model->where('random_hash', $hash)->first();
+    }
+
+    public function generateRandomString($limit = 6): String
     {
         return bin2hex(random_bytes($limit));
     }
 
-    public function createShortenedUrl($randomString)
+    /**
+     * Build the shortened URL
+     * @param $randomString
+     * @return String
+     */
+    public function createShortenedUrl($randomString): String
     {
         $host = request()->getHttpHost();
 
@@ -54,12 +64,23 @@ class UrlRepository implements UrlRepositoryInterface
         return $host . '/' . $randomString;
     }
 
+    /**
+     * Increment the number of access of the given url stored in the database
+     * @param $randomString
+     * @return String
+     */
+    public function increaseAccessCount($url): String
+    {
+        $url->access_count++;
+        $url->save();
+
+        return $url;
+    }
+
     public function store($data = []): Model
     {
         $randomHash = $this->generateRandomString();
         $shortenedUrl = $this->createShortenedUrl($randomHash);
-
-//        dd($randomHash);
 
         $record = $this->model->create($data + ['shortened_url' => $shortenedUrl, 'random_hash' => $randomHash ]);
 

@@ -22,10 +22,24 @@ class ShortenerController extends BaseApiController
         $this->repo = $topUrlRepository;
     }
 
-    public function shortenUrl(Request $request, $redirect = null)
+    public function shortenUrl(Request $request, $hash = null)
     {
         try
         {
+            //First check if the page must to be redirected or shorten an URL
+            if ($hash) {
+
+                $url = $this->repo->findByHash($hash);
+
+                if (! $url){
+                    throw new Exception("Couldn't find any shortened url with this hash");
+                }
+
+                if ($this->repo->increaseAccessCount($url)) {
+                    return redirect($url->original_url, 301);
+                }
+            }
+
             $url = $request->get("url");
 
             if (! $url){
@@ -67,10 +81,20 @@ class ShortenerController extends BaseApiController
     {
         try
         {
-            $this->repo->getTop100();
+            $top100Urls = $this->repo->getTop100();
+
+            return response()->json([
+                'error' => 200,
+                'message' => '',
+                'data' => $top100Urls,
+            ]);
         }
         catch (Exception $e){
-
+            return response()->json([
+                'error' => $e->getCode(),
+                'message' => $e->getMessage(),
+                'data' => [],
+            ]);
         }
 
         return "";
