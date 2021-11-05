@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Repositories\Contracts\TopUrlRepositoryInterface;
-use App\Repositories\TopUrlRepository;
+use App\Repositories\Contracts\UrlRepositoryInterface;
+use App\Repositories\UrlRepository;
 
 class RepositoriesProvider extends ServiceProvider
 {
@@ -15,6 +15,6 @@ class RepositoriesProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(TopUrlRepositoryInterface::class, TopUrlRepository::class);
+        $this->app->bind(UrlRepositoryInterface::class, UrlRepository::class);
     }
 }

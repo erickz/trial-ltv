@@ -13,4 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/{redirect?}', [App\Http\Controllers\Api\v1\ShortenerController::class, 'shortenUrl']);
+//The prefix is a suggestion
+Route::middleware(['api'])->prefix('v1')->group(function(){
+    Route::get('/{redirect?}', [App\Http\Controllers\Api\v1\ShortenerController::class, 'shortenUrl']);
+    Route::get('/urls/top', [App\Http\Controllers\Api\v1\ShortenerController::class, 'getTopUrls']);
+});

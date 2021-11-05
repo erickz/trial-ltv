@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class TopUrl
+class UrlModel extends Model
 {
+    protected $table = 'urls';
+
     use HasFactory;
 
     /**
@@ -16,6 +19,9 @@ class TopUrl
      */
     protected $fillable = [
         'original_url',
-        'shortened_url'
+        'shortened_url',
+        'random_hash',
+        'nsfw',
+        'access_count'
     ];
 }

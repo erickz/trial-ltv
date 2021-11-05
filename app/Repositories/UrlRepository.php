@@ -5,10 +5,10 @@ namespace App\Repositories;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-use App\Repositories\Contracts\TopUrlRepositoryInterface;
-use App\Models\TopUrl as Model;
+use App\Repositories\Contracts\UrlRepositoryInterface;
+use App\Models\UrlModel as Model;
 
-class TopUrlRepository implements TopUrlRepositoryInterface
+class UrlRepository implements UrlRepositoryInterface
 {
     private $model;
     private $rowsPerPage = 20;
@@ -47,16 +47,21 @@ class TopUrlRepository implements TopUrlRepositoryInterface
     {
         $host = request()->getHttpHost();
 
+        if (strpos($host, 'http') !== 0) {
+            $host = 'http://' .  $host;
+        }
+
         return $host . '/' . $randomString;
     }
 
     public function store($data = []): Model
     {
-        $record = $this->model->create($data);
-        $record->random_hash = $this->generateRandomString();
-        $record->shortened_url = $this->createShortenedUrl();
+        $randomHash = $this->generateRandomString();
+        $shortenedUrl = $this->createShortenedUrl($randomHash);
 
-        $record->save();
+//        dd($randomHash);
+
+        $record = $this->model->create($data + ['shortened_url' => $shortenedUrl, 'random_hash' => $randomHash ]);
 
         return $record;
     }

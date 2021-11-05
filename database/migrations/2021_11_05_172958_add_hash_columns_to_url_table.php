@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddHashColumnToTopUrlTable extends Migration
+class AddHashColumnsToUrlTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class AddHashColumnToTopUrlTable extends Migration
      */
     public function up()
     {
-        Schema::table('top_urls', function (Blueprint $table) {
-            $table->string('random_hash',10)->after('access_count');
+        Schema::table('urls', function (Blueprint $table) {
+            $table->string('random_hash',50)->after('access_count');
+            $table->boolean('nsfw')->default(0)->after('random_hash');
         });
     }
 
@@ -25,8 +26,8 @@ class AddHashColumnToTopUrlTable extends Migration
      */
     public function down()
     {
-        Schema::table('top_urls', function (Blueprint $table) {
-            $table->dropColumn('randomHash');
+        Schema::table('urls', function (Blueprint $table) {
+            $table->dropColumn('random_hash');
         });
     }
 }

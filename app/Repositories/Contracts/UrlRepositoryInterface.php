@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Contracts;
 
-interface TopUrlRepositoryInterface
+interface UrlRepositoryInterface
 {
     public function get();
     public function paginate();

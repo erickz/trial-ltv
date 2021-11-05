@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\BaseApiController;
-use App\Repositories\Contracts\TopUrlRepositoryInterface;
+use App\Repositories\Contracts\UrlRepositoryInterface;
 use Exception;
 use Illuminate\Http\Request;
 use Validator;
@@ -17,7 +17,7 @@ class ShortenerController extends BaseApiController
      *
      * @return void
      */
-    public function __construct(TopUrlRepositoryInterface $topUrlRepository)
+    public function __construct(UrlRepositoryInterface $topUrlRepository)
     {
         $this->repo = $topUrlRepository;
     }
@@ -39,11 +39,20 @@ class ShortenerController extends BaseApiController
             if (filter_var($url, FILTER_VALIDATE_URL) === false){
                 throw new Exception("URL IS NOT VALID");
             }
+
+            $shortenedUrl = $this->repo->store(['original_url' => $url]);
+
+            return response()->json([
+                'error' => 200,
+                'message' => 'URL shortened with success!',
+                'data' => $shortenedUrl
+            ]);
         }
         catch (Exception $e){
             return response()->json([
                 'error' => $e->getCode(),
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
+                'data' => [],
             ]);
         }
 
