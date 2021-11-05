@@ -18,14 +18,14 @@ class TopUrlRepository implements TopUrlRepositoryInterface
         $this->model = $model;
     }
 
-    public function something()
-    {
-        var_dump("Teste");exit;
-    }
-
     public function get(Array $filters = []): Collection
     {
         return $this->model->get();
+    }
+
+    public function getTop100()
+    {
+        return $this->model->take(100)->order_by('access_count', 'DESC')->get();
     }
 
     public function paginate(Array $filters = []): LengthAwarePaginator
@@ -38,9 +38,25 @@ class TopUrlRepository implements TopUrlRepositoryInterface
         return $this->model->find($id);
     }
 
+    public function generateRandomString($limit = 6)
+    {
+        return bin2hex(random_bytes($limit));
+    }
+
+    public function createShortenedUrl($randomString)
+    {
+        $host = request()->getHttpHost();
+
+        return $host . '/' . $randomString;
+    }
+
     public function store($data = []): Model
     {
         $record = $this->model->create($data);
+        $record->random_hash = $this->generateRandomString();
+        $record->shortened_url = $this->createShortenedUrl();
+
+        $record->save();
 
         return $record;
     }

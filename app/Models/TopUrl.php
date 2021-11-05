@@ -16,6 +16,6 @@ class TopUrl
      */
     protected $fillable = [
         'original_url',
-        'shortened_url',
+        'shortened_url'
     ];
 }
