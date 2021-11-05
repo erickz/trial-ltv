@@ -13,6 +13,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/{urlToBeShortened}', [App\Http\Controllers\Api\v1\ShortenerController::class, 'shortenUrl']);
