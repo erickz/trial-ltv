@@ -22,4 +22,5 @@ By accessing http://localhost/urls/top it will return the top 100 most accessed 
 - Use custom exceptions for the errors;
 - Improve the generation of hash in order to shorten even more the URL;
 - Redact the data return since we probably won't be using timestamps on that and so this is an irrelevant data;
-- I think It would be better organized if we added the prefix `api/v1/` to the api`s endpoints, since now this app also has views. 
+- I think It would be better organized if we added the prefix `api/v1/` to the api`s endpoints, since now this app also has views;
+- Use ajax requests in the form;

@@ -17,4 +17,5 @@ Route::middleware(['api'])->group(function(){
     Route::get('/urls/top', [App\Http\Controllers\Api\v1\ShortenerController::class, 'getTopUrls']);
 });
 
-Route::get('adm/urls', [App\Http\Controllers\Api\v1\ShortenerController::class, 'topUrlsView']);
+Route::get('adm/urls', [App\Http\Controllers\Api\v1\ShortenerController::class, 'topUrlsView'])->name('adm.urls');
+Route::post('adm/urls', [App\Http\Controllers\Api\v1\ShortenerController::class, 'sendUrl'])->name('adm.urls.post');

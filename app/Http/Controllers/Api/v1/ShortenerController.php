@@ -43,7 +43,7 @@ class ShortenerController extends BaseApiController
             $url = $request->get("url");
 
             if (! $url){
-                throw new Exception('Please provide a URL');
+                throw new Exception('Please provide a valid URL');
             }
 
             if (strpos($url, 'www') === false) {
@@ -56,16 +56,10 @@ class ShortenerController extends BaseApiController
             }
 
             if (filter_var($url, FILTER_VALIDATE_URL) === false){
-                throw new Exception("The provided URL is not valid");
+                throw new Exception("The provided URL is invalid");
             }
 
             $shortenedUrl = $this->repo->store(['original_url' => $url]);
-
-            return response()->json([
-                'error' => 200,
-                'message' => 'URL shortened with success!',
-                'data' => $shortenedUrl
-            ]);
         }
         catch (Exception $e){
             return response()->json([
@@ -75,7 +69,11 @@ class ShortenerController extends BaseApiController
             ]);
         }
 
-        return "";
+        return response()->json([
+            'error' => 200,
+            'message' => 'URL shortened with success!',
+            'data' => $shortenedUrl
+        ]);
     }
 
     /**
@@ -87,12 +85,6 @@ class ShortenerController extends BaseApiController
         try
         {
             $top100Urls = $this->repo->getTop100();
-
-            return response()->json([
-                'error' => 200,
-                'message' => '',
-                'data' => $top100Urls,
-            ]);
         }
         catch (Exception $e){
             return response()->json([
@@ -102,9 +94,17 @@ class ShortenerController extends BaseApiController
             ]);
         }
 
-        return "";
+        return response()->json([
+            'error' => 200,
+            'message' => '',
+            'data' => $top100Urls,
+        ]);
     }
 
+    /**
+     * Display the top 100 most accessed URLs
+     * @return bool|\Illuminate\Auth\Access\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function topUrlsView()
     {
         $data = [
@@ -112,5 +112,25 @@ class ShortenerController extends BaseApiController
         ];
 
         return view('topurls')->with($data);
+    }
+
+    /**
+     *
+     */
+    public function sendUrl(Request $request)
+    {
+        $validated = $request->validateWithBag('post', [
+            'url' => 'required|url'
+        ]);
+
+        try
+        {
+            $shortenedUrl = $this->repo->store(['original_url' => $request->get('url')]);
+        }
+        catch (Exception $e){
+            return back()->with(['type' => 'error', 'message' => 'Unable to save the URL']);
+        }
+
+        return back()->with(['type' => 'success', 'message' => 'Your shortened URL: <a href="' . $shortenedUrl->shortened_url . '">' . $shortenedUrl->shortened_url . '</a>']);
     }
 }
