@@ -107,6 +107,10 @@ class ShortenerController extends BaseApiController
 
     public function topUrlsView()
     {
-        return view('topurls');
+        $data = [
+            'topUrls' => $this->repo->getTop100()
+        ];
+
+        return view('topurls')->with($data);
     }
 }
