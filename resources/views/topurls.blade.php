@@ -43,8 +43,8 @@
                 @foreach($topUrls as $url)
                     <tr>
                         <td>{{ $url->id }}</td>
-                        <td>{{ $url->original_url }}</td>
-                        <td>{{ $url->shortened_url }}</td>
+                        <td><a href="{{ $url->original_url }}">{{ $url->original_url }}</a></td>
+                        <td><a href="{{ $url->shortened_url }}">{{ $url->shortened_url }}</a></td>
                         <td>{{ $url->access_count }}</td>
                     </tr>
                 @endforeach

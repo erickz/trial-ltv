@@ -8,7 +8,9 @@ or `composer install` if It's the first time you're using;
 You should use the `url` query string to send the URL you want to shorten, you must access the index of the 
 application as such: http://localhost/?url=www.google.com.br. It should return a JSON and the shorten URL on it.
 
-By accessing http://localhost/urls/top it will return the top 100 most accessed URLs.
+By accessing http://localhost/urls/top It will return a JSON with the top 100 most accessed URLs.
+
+In the http://localhost/adm/top It will return a view the top 100 most accessed URLs and a form to shorten the URLs.
 
 # Challenges
 - **Treatment of the URL**, this is a data which can be valid in multiple ways: with http, https, www, .me, .com, .us and so many more -
