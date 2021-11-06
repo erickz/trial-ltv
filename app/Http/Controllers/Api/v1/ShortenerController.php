@@ -104,4 +104,9 @@ class ShortenerController extends BaseApiController
 
         return "";
     }
+
+    public function topUrlsView()
+    {
+        return view('topurls');
+    }
 }

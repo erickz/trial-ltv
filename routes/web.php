@@ -16,3 +16,5 @@ Route::middleware(['api'])->group(function(){
     Route::get('/{redirect?}', [App\Http\Controllers\Api\v1\ShortenerController::class, 'shortenUrl']);
     Route::get('/urls/top', [App\Http\Controllers\Api\v1\ShortenerController::class, 'getTopUrls']);
 });
+
+Route::get('adm/urls', [App\Http\Controllers\Api\v1\ShortenerController::class, 'topUrlsView']);
