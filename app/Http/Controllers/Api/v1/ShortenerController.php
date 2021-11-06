@@ -22,7 +22,7 @@ class ShortenerController extends BaseApiController
         $this->repo = $topUrlRepository;
     }
 
-    public function shortenUrl(Request $request, $hash = null)
+    public function shortenOrRedirectUrl(Request $request, $hash = null)
     {
         try
         {

@@ -4,7 +4,7 @@
 
 @section('content')
     <h1>Top 100 URLs</h1>
-    <div class="list">
+    <div class="col-md-12">
 
     </div><!-- -->
 @endsection
