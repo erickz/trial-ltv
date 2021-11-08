@@ -24,7 +24,7 @@
                     </div>
                     <div class="form-group d-block col-md-6">
                         <div class="input-group">
-                            <input type="text" class="form-control" name="url" placeholder="Enter the url" value="{{ old('url') }}">
+                            <input type="text" class="form-control" name="url" placeholder="https://www.example.com" value="{{ old('url') }}">
                             <input type="submit" value="Send" class="btn btn-success" />
                         </div>
                     </div>
@@ -39,6 +39,7 @@
                     <th>Id</th>
                     <th>Original URL</th>
                     <th>Shortened URL</th>
+                    <th>NSFW</th>
                     <th>Number of access</th>
                 </tr>
             </thead>
@@ -46,8 +47,9 @@
                 @foreach($topUrls as $url)
                     <tr>
                         <td>{{ $url->id }}</td>
-                        <td><a href="{{ $url->original_url }}">{{ $url->original_url }}</a></td>
+                        <td>{{ $url->original_url }}</td>
                         <td><a href="{{ $url->shortened_url }}" data-nsfw="{{ $url->nsfw }}" class="handlesNSFW">{{ $url->shortened_url }}</a></td>
+                        <td>{{ $url->nsfw ? "yes" : 'no' }}</td>
                         <td>{{ $url->access_count }}</td>
                     </tr>
                 @endforeach
