@@ -26,7 +26,7 @@ class ShortenerController extends BaseApiController
     {
         try
         {
-            //First check if the page must to be redirected or shorten an URL
+            //First It check if the page must to be redirected
             if ($hash) {
 
                 $url = $this->repo->findByHash($hash);
@@ -36,6 +36,7 @@ class ShortenerController extends BaseApiController
                 }
 
                 if ($this->repo->increaseAccessCount($url)) {
+                    //Redirect with the http status 301
                     return redirect($url->original_url, 301);
                 }
             }
@@ -46,6 +47,7 @@ class ShortenerController extends BaseApiController
                 throw new Exception('Please provide a valid URL');
             }
 
+            //Check if the var contains `www`
             if (strpos($url, 'www') === false) {
                 throw new Exception('Please provide a valid URL');
             }
@@ -55,6 +57,7 @@ class ShortenerController extends BaseApiController
                 $url = 'http://' .  $url;
             }
 
+            //Validates the URL
             if (filter_var($url, FILTER_VALIDATE_URL) === false){
                 throw new Exception("The provided URL is invalid");
             }

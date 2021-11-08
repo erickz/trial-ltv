@@ -20,10 +20,10 @@ In the http://localhost/adm/top It will return a view the top 100 most accessed 
   Not only that but It has 13 characters of size, with the usage of a different hash function we could reduce this to 7~8 characters at least but a more complex algorith is necessary to do all this work.
 
 # Future improvements
-- Make a middleware to sanitize and add a layer of security over the url param (I have a feeling as It's now, It won't pass in the pentest tools);
+- Make a middleware to sanitize and add a layer of security over the url param (as It's now I'm not sure It will pass the pentest tools);
 - Use custom exceptions for the errors;
 - Improve the generation of hash in order to shorten even more the URL;
 - Redact the data return since we probably won't be using timestamps on that and so this is an irrelevant data;
-- I think It would be better organized if we added the prefix `api/v1/` to the api`s endpoints, since now this app also has views;
+- I think It would be better organized if we added the prefix `api/v1/` to the api`s endpoints, since this app also has views;
 - Use ajax requests in the form;
-- Improve the text of this description.
+- Use ES6 in the scripts;
