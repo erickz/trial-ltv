@@ -6,7 +6,7 @@ function init(){
     //Apply a modal with a countdown of 10 seconds for links NSFW
     var handleNsfwLinks = function(){
         //Get the links
-        var nsfwLinks = document.getElementById('listUrls').getElementsByClassName('handlesNSFW');
+        var nsfwLinks = document.getElementsByClassName('handlesNSFW');
 
         //Event function of the NSFW behavior
         var handleNSFW = function(e){

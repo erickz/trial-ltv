@@ -128,12 +128,19 @@ class ShortenerController extends BaseApiController
 
         try
         {
-            $shortenedUrl = $this->repo->store(['original_url' => $request->get('url')]);
+            $nsfw = 0;
+            if ($request->has('nsfw')){
+                $nsfw = 1;
+            }
+
+            $shortenedUrl = $this->repo->store(['original_url' => $request->get('url'), 'nsfw' => $nsfw]);
         }
         catch (Exception $e){
             return back()->with(['type' => 'error', 'message' => 'Unable to save the URL']);
         }
 
-        return back()->with(['type' => 'success', 'message' => 'Your shortened URL: <a href="' . $shortenedUrl->shortened_url . '">' . $shortenedUrl->shortened_url . '</a>']);
+        $shortenedLink = "<a class='handlesNSFW' data-nsfw='{$shortenedUrl->nsfw}' href='{$shortenedUrl->shortened_url}'> {$shortenedUrl->shortened_url}</a>";
+
+        return back()->with(['type' => 'success', 'message' => 'Your shortened URL: ' . $shortenedLink]);
     }
 }

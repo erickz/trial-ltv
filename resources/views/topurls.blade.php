@@ -12,7 +12,7 @@
             @if ($errors->hasBag('post') || session()->has('type'))
                 <div class="alert alert-{{ $errors->hasBag('post') | session()->get('type') == 'error' ? 'danger' : 'success' }}">
                     {{ $errors->post->first('url') }}
-                    {{ session()->get('message') }}
+                    {!! session()->get('message') !!}
                 </div>
             @endif
             <div>
@@ -24,7 +24,7 @@
                     </div>
                     <div class="form-group d-block col-md-6">
                         <div class="input-group">
-                            <input type="text" class="form-control" name="url" placeholder="Enter the url">
+                            <input type="text" class="form-control" name="url" placeholder="Enter the url" value="{{ old('url') }}">
                             <input type="submit" value="Send" class="btn btn-success" />
                         </div>
                     </div>

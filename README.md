@@ -27,3 +27,4 @@ In the http://localhost/adm/top It will return a view the top 100 most accessed 
 - I think It would be better organized if we added the prefix `api/v1/` to the api`s endpoints, since this app also has views;
 - Use ajax requests in the form;
 - Use ES6 in the scripts;
+- Enable the api to handle the `nsfw` flag as well as the form
